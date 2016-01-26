@@ -1,0 +1,70 @@
+<project name="spanishphonology" default="compile" basedir=".">
+  <description>
+    Rule-based phonemic transcription of Spanish words, ported to Java and Javascript from spanish-pronunciation-rules-php
+  </description>
+  <!-- set global properties for this build -->
+  <xmlproperty file="config.xml" />
+  <property name="src" location="."/>
+  <property name="build" location="."/>
+  <property name="srcfiles" value="nz/ac/canterbury/ling/spanishphonology/*.java" />
+  <property name="tests" value="nz/ac/canterbury/ling/spanishphonology/test/Test*.java" />
+  <property name="junitjar" value="/usr/share/java/junit4.jar" />
+  
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"/>
+  </target>
+  
+  <target name="compile" depends="init" description="compile the source " >
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac srcdir="${src}" destdir="${build}"
+	   includes="${srcfiles}"
+	   listfiles="yes"
+	   includeantruntime="false"
+	   debug="true">
+      <compilerarg value="-Xlint"/>
+    </javac>
+  </target>
+
+  <target name="compile_tests" depends="compile" description="compile the source " >
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac srcdir="${src}" destdir="${build}"
+	   includes="${tests}"
+	   classpath=".;${junitjar}"
+	   listfiles="yes"
+	   includeantruntime="false"
+	   debug="true">
+      <compilerarg value="-Xlint"/>
+    </javac>
+  </target>
+
+  <target name="test" depends="compile_tests" description="run unit tests">
+    <junit
+	haltonfailure="true"
+	fork="true"
+	>
+      <classpath>
+	<pathelement path="."/>
+	<pathelement path="${junitjar}"/>
+      </classpath>
+      <jvmarg value="-ea"/>
+      <formatter type="plain" usefile="false" />
+      <batchtest>
+        <fileset dir=".">
+          <include name="${tests}"/>
+        </fileset>
+      </batchtest>
+    </junit>
+  </target>
+
+    
+  <target name="clean" description="clean up" >
+    <delete verbose="true">
+      <fileset dir="." includes="**/*~" defaultexcludes="no" />
+      <fileset dir="." includes="**/*.class" />
+    </delete>    
+  </target>
+  
+</project>
