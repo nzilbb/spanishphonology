@@ -176,6 +176,7 @@ public class TestSpanishPronunciation
       {
 	 assertEquals(locale, es.transcribe("te amo", locale), "teamo");
 	 assertEquals(locale, es.transcribe("4", locale), "kwatɾo");
+	 assertEquals(locale, es.transcribe("41", locale), "kwaɾentaiuno");
 	 assertEquals(locale, es.transcribe("2016", locale), "");
       }
    }
