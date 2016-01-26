@@ -50,6 +50,28 @@ public class TestSpanishPronunciation
       }
    }
 
+   @Test public void TestCapitalAccentedVowels() 
+   {
+      SpanishPronunciation es = new SpanishPronunciation();
+      es.setCapitalAccentedVowels(true);
+
+      // should be the same for all locales
+      for (String locale : es.getSupportedLocales())
+      {
+	 assertEquals(locale, es.transcribe("año", locale), "aɲo");
+	 assertEquals(locale, es.transcribe("ama", locale), "ama");
+	 assertEquals(locale, es.transcribe("te", locale), "te");
+	 assertEquals(locale, es.transcribe("qué", locale), "kE");
+	 assertEquals(locale, es.transcribe("mi", locale), "mi");
+	 assertEquals(locale, es.transcribe("mí", locale), "mI");
+	 assertEquals(locale, es.transcribe("púm", locale), "pUm");
+	 assertEquals(locale, es.transcribe("jaja", locale), "xaxa");
+	 assertEquals(locale, es.transcribe("ká", locale), "kA");
+	 assertEquals(locale, es.transcribe("totó", locale), "totO");
+	 assertEquals(locale, es.transcribe("wat", locale), "wat");
+      }
+   }
+
    @Test public void TestBasicContextDependentPhonemes() 
    {
       SpanishPronunciation es = new SpanishPronunciation();

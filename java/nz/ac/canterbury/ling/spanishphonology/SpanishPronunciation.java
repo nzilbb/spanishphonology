@@ -54,6 +54,25 @@ public class SpanishPronunciation {
    private HashSet<Character> a_e_o_i_for_u = new HashSet<Character>();
    private HashSet<Character> a_o_u_for_nc = new HashSet<Character>();
    private HashSet<Character> n_becomes_m = new HashSet<Character>();
+
+   
+   /**
+    * Whether vowels that carry an orthographic accent (á, é, í, ó, ú) are represented with a capital letted in the phonemic transcription.
+    * @see #getCapitalAccentedVowels()
+    * @see #setCapitalAccentedVowels(boolean)
+    */
+   protected boolean capitalAccentedVowels = false;
+   /**
+    * Getter for {@link #capitalAccentedVowels}: Whether vowels that carry an orthographic accent (á, é, í, ó, ú) are represented with a capital letted in the phonemic transcription.
+    * @return Whether vowels that carry an orthographic accent (á, é, í, ó, ú) are represented with a capital letted in the phonemic transcription.
+    */
+   public boolean getCapitalAccentedVowels() { return capitalAccentedVowels; }
+   /**
+    * Setter for {@link #capitalAccentedVowels}: Whether vowels that carry an orthographic accent (á, é, í, ó, ú) are represented with a capital letted in the phonemic transcription.
+    * @param newCapitalAccentedVowels Whether vowels that carry an orthographic accent (á, é, í, ó, ú) are represented with a capital letted in the phonemic transcription.
+    */
+   public void setCapitalAccentedVowels(boolean newCapitalAccentedVowels) { capitalAccentedVowels = newCapitalAccentedVowels; }
+
    
    // Methods:
    
@@ -489,15 +508,17 @@ public class SpanishPronunciation {
       // the following is to normalize the phonetic transcription to the IPA standard
       // we don't use this when processing the Spanish text
       String transcription = phonetic_transcription.toString();
-      HashMap<Character,Character> stressedToStandard = new HashMap<Character,Character>();
-      stressedToStandard.put('A', 'a');
-      stressedToStandard.put('E', 'e');
-      stressedToStandard.put('I', 'i');
-      stressedToStandard.put('O', 'o');
-      stressedToStandard.put('U', 'u');
-      stressedToStandard.put('Y', 'i');
-      for (Character original : stressedToStandard.keySet()) {
-	 transcription = transcription.replace(original, stressedToStandard.get(original));
+      if (!capitalAccentedVowels) {
+	 HashMap<Character,Character> stressedToStandard = new HashMap<Character,Character>();
+	 stressedToStandard.put('A', 'a');
+	 stressedToStandard.put('E', 'e');
+	 stressedToStandard.put('I', 'i');
+	 stressedToStandard.put('O', 'o');
+	 stressedToStandard.put('U', 'u');
+	 stressedToStandard.put('Y', 'i');
+	 for (Character original : stressedToStandard.keySet()) {
+	    transcription = transcription.replace(original, stressedToStandard.get(original));
+	 }
       }
       
       return transcription;
